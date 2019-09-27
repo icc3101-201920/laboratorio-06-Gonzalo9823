@@ -33,6 +33,12 @@ namespace Laboratorio_5_OOP_201902
             int randomNumber = rnd.Next(0, 1);
 
             activePlayer = players[randomNumber];
+
+            players[0].Board = boardGame;
+            players[1].Board = boardGame;
+
+            AddDecks();
+            AddCaptains();
         }
         //Propiedades
         public Player[] Players
@@ -104,7 +110,104 @@ namespace Laboratorio_5_OOP_201902
         }
         public void Play()
         {
-            throw new NotImplementedException();
+            Visualization.ShowProgramMessage("Player 1 select Deck and captain:");
+            players[0].Deck = Visualization.ShowDecks(decks);
+            players[0].ChooseCaptainCard(Visualization.ShowCaptains(captains));
+
+            players[0].FirstHand();
+            Visualization.ShowHand(players[0].Hand);
+
+            bool playerOneSelecting = true;
+            int numberOfTimesPlayerOne = 0;
+            while (playerOneSelecting)
+            {
+                Visualization.ShowListOptions(new List<string> { "ShowListOptions", "Pass" }, "Change 3 cards or ready to play:");
+                int userOption = Int32.Parse(System.Console.ReadLine());
+
+                if(userOption == 1)
+                {
+                    playerOneSelecting = false;
+                } else
+                {
+                    if(numberOfTimesPlayerOne < 3)
+                    {
+                        System.Console.WriteLine("Input the number of the card you wan't to change. To stop write -1");
+                        int userCard = Int32.Parse(System.Console.ReadLine());
+
+                        if(userCard == -1)
+                        {
+                            playerOneSelecting = false;
+                        } else
+                        {
+                            players[0].Hand.Cards.RemoveAt(userCard);
+
+
+                            Random rnd = new Random();
+                            int randomNumber = rnd.Next(0, players[0].Deck.Cards.Count);
+
+                            players[0].DrawCard(randomNumber);
+                        }
+
+                    }
+                    else
+                    {
+                        Visualization.ConsoleError("Ya no puedes cambiar mas cartas");
+                        playerOneSelecting = false;
+                    }
+                }
+            }
+
+            Visualization.ClearConsole();
+
+            Visualization.ShowProgramMessage("Player 2 select Deck and captain:");
+            players[1].Deck = Visualization.ShowDecks(decks);
+            players[1].ChooseCaptainCard(Visualization.ShowCaptains(captains));
+
+            players[1].FirstHand();
+            Visualization.ShowHand(players[1].Hand);
+
+            bool playerTwoSelecting = true;
+            int numberOfTimesPlayerTwo = 0;
+            while (playerTwoSelecting)
+            {
+                Visualization.ShowListOptions(new List<string> { "ShowListOptions", "Pass" }, "Change 3 cards or ready to play:");
+                int userOption = Int32.Parse(System.Console.ReadLine());
+
+                if (userOption == 1)
+                {
+                    playerTwoSelecting = false;
+                }
+                else
+                {
+                    if (numberOfTimesPlayerTwo < 3)
+                    {
+                        System.Console.WriteLine("Input the number of the card you wan't to change. To stop write -1");
+                        int userCard = Int32.Parse(System.Console.ReadLine());
+
+                        if (userCard == -1)
+                        {
+                            playerTwoSelecting = false;
+                        }
+                        else
+                        {
+                            players[1].Hand.Cards.RemoveAt(userCard);
+
+
+                            Random rnd = new Random();
+                            int randomNumber = rnd.Next(0, players[1].Deck.Cards.Count);
+
+                            players[1].DrawCard(randomNumber);
+                        }
+
+                    }
+                    else
+                    {
+                        Visualization.ConsoleError("Ya no puedes cambiar mas cartas");
+                        playerTwoSelecting = false;
+                    }
+                }
+            }
+            Visualization.ClearConsole();
         }
         public void AddDecks()
         {

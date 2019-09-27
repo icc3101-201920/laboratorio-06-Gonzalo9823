@@ -7,7 +7,7 @@ namespace Laboratorio_5_OOP_201902
    static class Visualization
     {
 
-        public void ShowHand(Hand hand)
+        static public void ShowHand(Hand hand)
         {
             int id = 0;
 
@@ -19,7 +19,8 @@ namespace Laboratorio_5_OOP_201902
                 {
                     // Rojo
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write($"|({id}) {card.Name} ({card.Type}): ({card.AttackPoints})|");
+                    CombatCard tempCard = (CombatCard)card;
+                    Console.Write($"|({id}) {tempCard.Name} ({tempCard.Type}): ({tempCard.AttackPoints})|");
                 }
                 else
                 {
@@ -32,29 +33,35 @@ namespace Laboratorio_5_OOP_201902
             }
         }
 
-        public void ShowDecks(List<Deck> decks)
+        static public Deck ShowDecks(List<Deck> decks)
         {
             Console.WriteLine("Select one Deck:");
 
-            for(int i = 0; i < decks.Count(); i++)
+            for(int i = 0; i < decks.Count; i++)
             {
                 Console.WriteLine($"({i}) Deck {i + 1}");
             }
+
+            int playerOption = Int32.Parse(System.Console.ReadLine());
+            return decks[playerOption];
         }
 
-        public void ShowCaptains(List<SpecialCard> captains)
+        static public SpecialCard ShowCaptains(List<SpecialCard> captains)
         {
             Console.WriteLine("Select one captain:");
 
-            id = 0;
+            int id = 0;
             foreach(SpecialCard card in captains)
             {
                 Console.WriteLine($"({id}) {card.Name}: {card.Effect}");
                 id++;
             }
+
+            int playerOption = Int32.Parse(System.Console.ReadLine());
+            return captains[playerOption];
         }
 
-        public int GetUserInput(int maxInput, bool stopper = false)
+        static public int GetUserInput(int maxInput, bool stopper = false)
         {
             bool shouldGetUserInput = true;
             // Para que si tiene un error el usuario pueda escribir de nuevo
@@ -70,6 +77,7 @@ namespace Laboratorio_5_OOP_201902
                     } else
                     {
                         ConsoleError($"Number must be between -1 and {maxInput}");
+                        return -2;
                     }
                 } else
                 {
@@ -80,12 +88,14 @@ namespace Laboratorio_5_OOP_201902
                     else
                     {
                         ConsoleError($"Number must be between 0 and {maxInput}");
+                        return -2;
                     }
                 }
             }
+            return -2;
         }
 
-        public void ConsoleError(string message)
+        static public void ConsoleError(string message)
         {
             Console.BackgroundColor = ConsoleColor.Red;
             Console.ForegroundColor = ConsoleColor.White;
@@ -93,14 +103,14 @@ namespace Laboratorio_5_OOP_201902
             Console.ResetColor();
         }
 
-        public void ShowProgramMessage(string message)
+        static public void ShowProgramMessage(string message)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(message);
             Console.ResetColor();
         }
 
-        public void ShowListOptions(List<string> options, string message = null)
+        static public void ShowListOptions(List<string> options, string message = null)
         {
             if(message != null)
             {
@@ -115,7 +125,7 @@ namespace Laboratorio_5_OOP_201902
             }
         }
 
-        public void ClearConsole()
+        static public void ClearConsole()
         {
             Console.Clear();
         }
